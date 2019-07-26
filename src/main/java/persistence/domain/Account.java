@@ -9,13 +9,13 @@ import javax.persistence.Id;
 public class Account {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer accountId;
 	private String userName;
 	private String userPass;
 
-	public Account(Integer id, String userName, String userPass) {
+	public Account(Integer accountId, String userName, String userPass) {
 		super();
-		this.id = id;
+		this.accountId = accountId;
 		this.userName = userName;
 		this.userPass = userPass;
 	}
@@ -24,12 +24,12 @@ public class Account {
 
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getAccountId() {
+		return accountId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
 	}
 
 	public String getUserName() {

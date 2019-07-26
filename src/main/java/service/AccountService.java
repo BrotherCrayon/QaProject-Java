@@ -15,6 +15,8 @@ public interface AccountService {
 
 	String updateAccount(int accountId, String account);
 
+	String login(String account);
+	
 	List<Account> findAccountsByFirstName(String userName);
 
 }

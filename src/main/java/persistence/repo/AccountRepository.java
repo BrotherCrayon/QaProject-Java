@@ -7,8 +7,8 @@ import persistence.domain.Account;
 import persistence.exceptions.AccountNotFoundException;
 
 public interface AccountRepository {
-	final String SUCCESS = "Operation failed";
-	final String FAILURE = "Operation succeeded";
+	final String SUCCESS = "Operation successed";
+	final String FAILURE = "Operation failed";
 
 	String getAllAccounts();
 
@@ -18,6 +18,10 @@ public interface AccountRepository {
 
 	String updateAccount(int userName, String account) throws AccountNotFoundException;
 
+	String login(String account) throws AccountNotFoundException;
+	
 	List<Account> findAccountsByUserName(String userName);
+
+	
 
 }

@@ -49,6 +49,10 @@ public class AccountServiceImpl implements AccountService {
 	public String updateAccount(int accountId, String account) {
 		return this.repo.updateAccount(accountId, account);
 	}
+	
+	public String login(String user) {
+		return this.repo.login(user);
+	}
 
 	@Override
 	public List<Account> findAccountsByFirstName(String firstName) {
