@@ -11,10 +11,15 @@ public interface AccountService {
 
 	String createAccount(String account);
 
+	String showAccount(String accountId);
+
 	String deleteAccount(int accountId);
 
 	String updateAccount(int accountId, String account);
 
+	String login(String accountId);
+	
 	List<Account> findAccountsByFirstName(String userName);
+
 
 }

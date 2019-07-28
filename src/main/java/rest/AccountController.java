@@ -21,21 +21,33 @@ public class AccountController {
 			return this.service.getAllAccounts();
 		}
 		
-		@POST
+		@GET
+		@Path("/showAccount")
+		public String showAccount(String accountId) {
+			return this.service.showAccount(accountId);
+		}
+		
+		@POST	
 		@Path("/createAccount")
 		public String createAccount(String account) {
 			return this.service.createAccount(account);
 		}
 		
 		@DELETE
-		@Path("/delete/{id}")
-		public String deleteAccount(@PathParam("id") int accountId) {
+		@Path("/delete/{accountId}")
+		public String deleteAccount(@PathParam("accountId") int accountId) {
 			return this.service.deleteAccount(accountId);
 		}
 		
 		@POST
-		@Path("/update/{id}")
-		public String updateAccount(@PathParam("id")int accountId, String account) {
+		@Path("/update/{accountId}")
+		public String updateAccount(@PathParam("accountId")int accountId, String account) {
 			return this.service.updateAccount(accountId, account);
 		}
+		
+		@POST
+		@Path("/login")
+		public String login(String account) {
+			return this.service.login(account);
+		}		
 }
