@@ -22,19 +22,25 @@ public class ListController {
 		}
 		
 		@POST
-		@Path("/createList")
-		public String createList(String lists) {
-			return this.createList(lists);
+		@Path("/getAccountList/{accountId}")
+		public String getAccountList(@PathParam("accountId") int accountId, int listId) {
+			return this.service.getAccountList(accountId, listId);
+		}
+		
+		@POST
+		@Path("/createList/{accountId}")
+		public String createList(String list, @PathParam("accountId") int accountId) {
+			return this.createList(list, accountId);
 		}
 		
 		@DELETE
-		@Path("/delete/{id}")
+		@Path("/delete/{listId}")
 		public String deleteList(@PathParam("listId") int listId) {
 			return this.service.deleteList(listId);
 		}
 		
 		@POST
-		@Path("/update/{id}")
+		@Path("/update/{listId}")
 		public String updateList(@PathParam("listId")int listId, String lists) {
 			return this.service.updateList(listId, lists);
 		}

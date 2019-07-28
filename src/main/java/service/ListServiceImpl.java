@@ -18,8 +18,14 @@ public class ListServiceImpl implements ListService {
 	}
 	
 	@Override
-	public String createList(String lists) {
-		return this.listRepo.createList(lists);
+	public String getAccountList(int accountId, int listId) {
+		return this.listRepo.getAccountList(accountId, listId);
+	}
+
+	
+	@Override
+	public String createList(String list, int accountId) {
+		return this.listRepo.createList(list, accountId);
 	}
 	
 	@Override
@@ -28,12 +34,12 @@ public class ListServiceImpl implements ListService {
 	}
 
 	@Override
-	public String updateList(int listId, String lists) {
-		return this.listRepo.updateList(listId, lists);
+	public String updateList(int listId, String list) {
+		return this.listRepo.updateList(listId, list);
 	}
 
 	@Override
-	public List<ToDoList> FindListByTitle(String listsTitle) {
+	public List<ToDoList> FindListByTitle(String listTitle) {
 		// TODO Auto-generated method stub
 		return null;
 	}

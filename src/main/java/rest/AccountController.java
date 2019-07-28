@@ -21,6 +21,12 @@ public class AccountController {
 			return this.service.getAllAccounts();
 		}
 		
+		@GET
+		@Path("/showAccount/{accountId}")
+		public String showAccount(@PathParam("accountId") int accountId) {
+			return this.service.showAccount(accountId);
+		}
+		
 		@POST	
 		@Path("/createAccount")
 		public String createAccount(String account) {

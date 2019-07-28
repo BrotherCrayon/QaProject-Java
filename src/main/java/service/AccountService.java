@@ -11,6 +11,8 @@ public interface AccountService {
 
 	String createAccount(String account);
 
+	String showAccount(int accountId);
+
 	String deleteAccount(int accountId);
 
 	String updateAccount(int accountId, String account);
@@ -18,5 +20,6 @@ public interface AccountService {
 	String login(String account);
 	
 	List<Account> findAccountsByFirstName(String userName);
+
 
 }

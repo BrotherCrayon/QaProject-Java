@@ -33,6 +33,14 @@ public class AccountDBRepository implements AccountRepository{
 	}
 
 	@Override
+//	@Transactional(value = TxType.REQUIRED)
+	public String showAccount(int accountId) throws AccountNotFoundException {
+		Account showAcc = this.manager.find(Account.class, accountId);
+		return this.json.getJSONForObject(showAcc);
+		
+	}
+	
+	@Override
 	@Transactional(value = TxType.REQUIRED)
 	public String createAccount(String account) {
 		Account toCreate = this.json.getObjectForJSON(account, Account.class);
@@ -61,9 +69,9 @@ public class AccountDBRepository implements AccountRepository{
 	
 	@Override
 	public String login(String account) throws AccountNotFoundException {
-		Account newAccount = this.json.getObjectForJSON(account, Account.class);
-		String userName = newAccount.getUserName();
-		String userPass = newAccount.getUserPass();
+		Account newLogin = this.json.getObjectForJSON(account, Account.class);
+		String userName = newLogin.getUserName();
+		String userPass = newLogin.getUserPass();
 		
 		String searchAcc = "SELECT a FROM Account a WHERE a.userName=:userName and a.userPass=:userPass";
 

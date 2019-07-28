@@ -39,6 +39,11 @@ public class AccountServiceImpl implements AccountService {
 		}
 		return this.repo.createAccount(account);
 	}
+	
+	@Override
+	public String showAccount(int accountId) {
+		return this.repo.showAccount(accountId);
+	}
 
 	@Override
 	public String deleteAccount(int accountId) {
@@ -50,8 +55,8 @@ public class AccountServiceImpl implements AccountService {
 		return this.repo.updateAccount(accountId, account);
 	}
 	
-	public String login(String user) {
-		return this.repo.login(user);
+	public String login(String account) {
+		return this.repo.login(account);
 	}
 
 	@Override

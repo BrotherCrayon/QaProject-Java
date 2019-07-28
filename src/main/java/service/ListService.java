@@ -7,12 +7,16 @@ import persistence.domain.ToDoList;
 public interface ListService {
 	String getAllLists();
 
-	String createList(String lists);
+	String getAccountList(int accountId, int listId);
 
-	String deleteList(int listsId);
+	String createList(String list, int accountId);
 
-	String updateList(int listsId, String lists) ;
+	String deleteList(int listId);
+
+	String updateList(int listId, String list) ;
 	
-	List<ToDoList> FindListByTitle(String listsTitle);
+	List<ToDoList> FindListByTitle(String listTitle);
+
+
 
 }

@@ -10,13 +10,16 @@ public interface ListRepository {
 	final String FAILURE = "Operation succeeded";
 
 	String getAllLists();
+	
+	//might need to remove accountId
+	String getAccountList(int accountId, int listId);
 
-	String createList(String list);
+	String createList(String list, int accountId);
 
-	String deleteList(int listsNumber); //throws AccountNotFoundException;
+	String deleteList(int listId); //throws AccountNotFoundException;
 
-	String updateList(int listsNumber, String lists); //throws AccountNotFoundException;
+	String updateList(int listId, String lists); //throws AccountNotFoundException;
 
-	List<ToDoList> findListByTitle(String listsTitle);
+	List<ToDoList> findListByTitle(String listTitle);
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import persistence.domain.Account;
 import persistence.domain.ToDoList;
 import util.JSONUtil;
 
@@ -28,39 +29,50 @@ public class ListDBRepository implements ListRepository{
 		TypedQuery<ToDoList> query = this.manager.createQuery("SELECT l from ToDoList l", ToDoList.class);
 		return this.json.getJSONForObject(query.getResultList());
 	}
+	
+	//TO-DO yet
+	@Override
+	public String getAccountList(int accountId, int listId) {
+		Account showAcc = this.manager.find(Account.class, accountId);
+		ToDoList showList = this.manager.find(ToDoList.class, listId);
+		return this.json.getJSONForObject(showAcc);
+	}
 
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public String createList(String lists) {
-		ToDoList listCreate = this.json.getObjectForJSON(lists, ToDoList.class);
+	public String createList(String list, int accountId) {
+		Account getAccount = this.manager.find(Account.class, accountId);
+		ToDoList listCreate = this.json.getObjectForJSON(list, ToDoList.class);
+		
+		listCreate.setAccount(getAccount);
 		this.manager.persist(listCreate);
 		return SUCCESS;
 	}
 
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public String deleteList(int listsId) {
-		this.manager.remove(this.manager.find(ToDoList.class, listsId));
+	public String deleteList(int listId) {
+		this.manager.remove(this.manager.find(ToDoList.class, listId));
 		return SUCCESS;
 	}
 
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public String updateList(int listsId, String lists) {
-		ToDoList newList = this.json.getObjectForJSON(lists, ToDoList.class);
-		ToDoList existingList = this.manager.find(ToDoList.class, listsId);
-		existingList.setListsId(newList.getListsId());
-		existingList.setListsTitle(newList.getListsTitle());
-		existingList.setListsContent(newList.getListsContent());
+	public String updateList(int listId, String list) {
+		ToDoList newList = this.json.getObjectForJSON(list, ToDoList.class);
+		ToDoList existingList = this.manager.find(ToDoList.class, listId);
+		existingList.setListId(newList.getListId());
+		existingList.setListTitle(newList.getListTitle());
+		existingList.setListContent(newList.getListContent());
 		this.manager.persist(existingList);
 		
-		return null;
+		return SUCCESS;
 	}
 
 	@Override
-	public List<ToDoList> findListByTitle(String listsTitle) {
+	public List<ToDoList> findListByTitle(String listTitle) {
 		TypedQuery<ToDoList> query = this.manager.createQuery("SELECT from l WHERE l.listsTitle = :listsTitle", ToDoList.class);
-		query.setParameter("listsTitle", listsTitle);
+		query.setParameter("listsTitle", listTitle);
 		return query.getResultList();
 	}
 }
