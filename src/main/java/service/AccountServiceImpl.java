@@ -21,12 +21,14 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public String getAllAccounts() {
-		return this.repo.getAllAccounts();
+		return this.json.getJSONForObject(this.repo.getAllAccounts());
 	}
 
 	@Override
 	public String createAccount(String account) {
-		List<Account> accDB = this.repo.findAccountsByUserName(account);
+		
+		Account _account = this.json.getObjectForJSON(account, Account.class);
+		List<Account> accDB = this.repo.findAccountsByUserName(_account.getUserName());
 		
 		String newAccount = this.json.getObjectForJSON(account, Account.class).getUserName();
 		
@@ -37,12 +39,12 @@ public class AccountServiceImpl implements AccountService {
 				}
 			}			
 		}
-		return this.repo.createAccount(account);
+		return this.json.getJSONForObject(this.repo.createAccount(this.json.getObjectForJSON(account, Account.class)));
 	}
 	
 	@Override
 	public String showAccount(int accountId) {
-		return this.repo.showAccount(accountId);
+		return this.json.getJSONForObject(this.repo.showAccount(accountId));
 	}
 
 	@Override
@@ -52,11 +54,11 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public String updateAccount(int accountId, String account) {
-		return this.repo.updateAccount(accountId, account);
+		return this.json.getJSONForObject(this.repo.updateAccount(accountId, this.json.getObjectForJSON(account, Account.class)));
 	}
 	
 	public String login(String account) {
-		return this.repo.login(account);
+		return this.json.getJSONForObject(this.repo.login(this.json.getObjectForJSON(account, Account.class)));
 	}
 
 	@Override

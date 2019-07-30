@@ -1,9 +1,13 @@
 package persistence.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Account {
@@ -12,16 +16,20 @@ public class Account {
 	private Integer accountId;
 	private String userName;
 	private String userPass;
+	
+	@OneToMany(mappedBy = "account")
+	private Set<ToDoList> lists = new HashSet<>();
 
-	public Account(Integer accountId, String userName, String userPass) {
+	public Account() {
+
+	}
+
+	public Account(Integer accountId, String userName, String userPass, Set<ToDoList> lists) {
 		super();
 		this.accountId = accountId;
 		this.userName = userName;
 		this.userPass = userPass;
-	}
-
-	public Account() {
-
+		this.lists = lists;
 	}
 
 	public Integer getAccountId() {
@@ -47,6 +55,15 @@ public class Account {
 	public void setUserPass(String userPass) {
 		this.userPass = userPass;
 	}
+
+	public Set<ToDoList> getLists() {
+		return lists == null ? new HashSet<ToDoList>() : lists;
+	}
+
+	public void setLists(Set<ToDoList> lists) {
+		this.lists = lists;
+	}
+
 
 
 }

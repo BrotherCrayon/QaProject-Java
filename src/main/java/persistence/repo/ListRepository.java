@@ -1,9 +1,5 @@
 package persistence.repo;
 
-import java.util.List;
-
-import persistence.domain.ToDoList;
-
 
 public interface ListRepository {
 	final String SUCCESS = "Operation failed";
@@ -12,14 +8,14 @@ public interface ListRepository {
 	String getAllLists();
 	
 	//might need to remove accountId
-	String getAccountList(int accountId, int listId);
+	String getAccountList(int accountId);
 
-	String createList(String list, int accountId);
+//	String createList(String list, int accountId);
 
-	String deleteList(int listId); //throws AccountNotFoundException;
+	String createListItem(String list, int accountId);
 
-	String updateList(int listId, String lists); //throws AccountNotFoundException;
+	String deleteList(int listId); 
 
-	List<ToDoList> findListByTitle(String listTitle);
+//	String updateList(int listId, String lists);
 
 }

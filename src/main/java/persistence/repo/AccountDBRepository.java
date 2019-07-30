@@ -1,6 +1,7 @@
 package persistence.repo;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -11,40 +12,39 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import dto.AccountDto;
 import persistence.domain.Account;
-import util.JSONUtil;
-
 import persistence.exceptions.AccountNotFoundException;
+import util.AccountMapper;
 
 @Transactional(value = TxType.SUPPORTS)
 @Default
-public class AccountDBRepository implements AccountRepository{
+public class AccountDBRepository implements AccountRepository {
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager manager;
 
 	@Inject
-	private JSONUtil json;
+	private AccountMapper mapper;
 
 	@Override
-	public String getAllAccounts() {
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public List<AccountDto> getAllAccounts() {
 		TypedQuery<Account> query = this.manager.createQuery("SELECT a from Account a", Account.class);
-		return this.json.getJSONForObject(query.getResultList());
+		return query.getResultList().stream().map(this.mapper::mapToDto).collect(Collectors.toList());
 	}
 
 	@Override
 //	@Transactional(value = TxType.REQUIRED)
-	public String showAccount(int accountId) throws AccountNotFoundException {
-		Account showAcc = this.manager.find(Account.class, accountId);
-		return this.json.getJSONForObject(showAcc);
-		
+	public Account showAccount(int accountId) throws AccountNotFoundException {
+		return this.manager.find(Account.class, accountId);
+
 	}
-	
+
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public String createAccount(String account) {
-		Account toCreate = this.json.getObjectForJSON(account, Account.class);
-		this.manager.persist(toCreate);
+	public String createAccount(Account account) {
+		this.manager.persist(account);
 		return SUCCESS;
 	}
 
@@ -57,31 +57,25 @@ public class AccountDBRepository implements AccountRepository{
 
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public String updateAccount(int userName, String account) throws AccountNotFoundException {
-		Account newAccount = this.json.getObjectForJSON(account, Account.class);
+	public String updateAccount(int userName, Account account) throws AccountNotFoundException {
 		Account existing = this.manager.find(Account.class, userName);
-		existing.setUserName(newAccount.getUserName());
+		existing.setUserName(account.getUserName());
 //		existing.setAccountId(newAccount.getAccountId());
-		existing.setUserPass(newAccount.getUserPass());
+		existing.setUserPass(account.getUserPass());
 		this.manager.persist(existing);
 		return SUCCESS;
 	}
-	
+
 	@Override
-	public String login(String account) throws AccountNotFoundException {
-		Account newLogin = this.json.getObjectForJSON(account, Account.class);
-		String userName = newLogin.getUserName();
-		String userPass = newLogin.getUserPass();
-		
+	public Account login(Account account) throws AccountNotFoundException {
 		String searchAcc = "SELECT a FROM Account a WHERE a.userName=:userName and a.userPass=:userPass";
 
-		Query query =  this.manager.createQuery(searchAcc);
-		query.setParameter("userName", userName);
-		query.setParameter("userPass", userPass);
-		
-		Account loginSuccess  = (Account) query.getSingleResult();
-		
-		return this.json.getJSONForObject(loginSuccess);
+		Query query = this.manager.createQuery(searchAcc);
+		query.setParameter("userName", account.getUserName());
+		query.setParameter("userPass", account.getUserPass());
+
+		Account loginSuccess = (Account) query.getSingleResult();
+		return loginSuccess;
 	}
 
 	@Override
@@ -91,7 +85,5 @@ public class AccountDBRepository implements AccountRepository{
 		query.setParameter("userName", userName);
 		return query.getResultList();
 	}
-
-	
 
 }

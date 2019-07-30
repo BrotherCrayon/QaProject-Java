@@ -11,13 +11,17 @@ public class ToDoList {
 	@ManyToOne
 	private Account account;
 	
+	private String listContent;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer listId;
 	private String listTitle;
-	private String listContent;
 	
 	
+	public ToDoList() {
+		
+	}
+
 	public ToDoList(Integer listId, String listTitle, String listContent) {
 		super();
 		this.listId = listId;
@@ -25,28 +29,24 @@ public class ToDoList {
 		this.listContent = listContent;
 	}
 
-	public ToDoList() {
-		
+	public Account getAccount() {
+		return account;
+	}
+
+	public String getListContent() {
+		return listContent;
 	}
 
 	public Integer getListId() {
 		return listId;
 	}
 
-	public void setListId(Integer listId) {
-		this.listId = listId;
-	}
-
 	public String getListTitle() {
 		return listTitle;
 	}
 
-	public void setListTitle(String listTitle) {
-		this.listTitle = listTitle;
-	}
-
-	public String getListContent() {
-		return listContent;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public void setListContent(String listContent) {
@@ -54,12 +54,12 @@ public class ToDoList {
 	}
 	
 	
-	public Account getAccount() {
-		return account;
+	public void setListId(Integer listId) {
+		this.listId = listId;
 	}
 	
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setListTitle(String listTitle) {
+		this.listTitle = listTitle;
 	}
 	
 }

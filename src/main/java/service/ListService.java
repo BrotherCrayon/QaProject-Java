@@ -1,22 +1,16 @@
 package service;
 
-import java.util.List;
-
-import persistence.domain.ToDoList;
-
 public interface ListService {
 	String getAllLists();
 
-	String getAccountList(int accountId, int listId);
+	String getAccountList(int accountId);
 
-	String createList(String list, int accountId);
+//	String createList(String list, int accountId);
+	
+	String createListItem(String list, int accountId);
 
 	String deleteList(int listId);
 
-	String updateList(int listId, String list) ;
+//	String updateList(int listId, String list) ;
 	
-	List<ToDoList> FindListByTitle(String listTitle);
-
-
-
 }
