@@ -67,7 +67,8 @@ public class AccountDBRepository implements AccountRepository {
 	}
 
 	@Override
-	public Account login(Account account) throws AccountNotFoundException {
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public AccountDto login(Account account) throws AccountNotFoundException {
 		String searchAcc = "SELECT a FROM Account a WHERE a.userName=:userName and a.userPass=:userPass";
 
 		Query query = this.manager.createQuery(searchAcc);
@@ -75,15 +76,16 @@ public class AccountDBRepository implements AccountRepository {
 		query.setParameter("userPass", account.getUserPass());
 
 		Account loginSuccess = (Account) query.getSingleResult();
-		return loginSuccess;
+		return this.mapper.mapToDto(loginSuccess);
 	}
 
 	@Override
-	public List<Account> findAccountsByUserName(String userName) {
+	public List<AccountDto> findAccountsByUserName(String userName) {
 		TypedQuery<Account> query = this.manager.createQuery("SELECT a FROM Account a WHERE a.userName = :userName",
 				Account.class);
 		query.setParameter("userName", userName);
-		return query.getResultList();
+		
+		return query.getResultList().stream().map(this.mapper::mapToDto).collect(Collectors.toList());
 	}
 
 }

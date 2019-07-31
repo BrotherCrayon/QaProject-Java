@@ -19,9 +19,9 @@ public interface AccountRepository {
 	String deleteAccount(int accountId) throws AccountNotFoundException;
 
 
-	List<Account> findAccountsByUserName(String userName);
+	List<AccountDto> findAccountsByUserName(String userName);
 
-	Account login(Account account) throws AccountNotFoundException;
+	AccountDto login(Account account) throws AccountNotFoundException;
 
 	String updateAccount(int userName, Account account) throws AccountNotFoundException;
 
