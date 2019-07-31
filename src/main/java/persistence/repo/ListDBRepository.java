@@ -1,5 +1,7 @@
 	package persistence.repo;
 
+import java.util.stream.Collectors;
+
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -12,6 +14,7 @@ import persistence.domain.Account;
 import persistence.domain.ToDoList;
 import persistence.exceptions.AccountNotFoundException;
 import util.JSONUtil;
+import util.ListMapper;
 
 @Transactional(value = TxType.SUPPORTS)
 @Default
@@ -22,6 +25,9 @@ public class ListDBRepository implements ListRepository{
 
 	@Inject
 	private JSONUtil json;
+	
+	@Inject
+	private ListMapper mapper;
 
 	@Override
 	public String getAllLists() {
@@ -37,7 +43,7 @@ public class ListDBRepository implements ListRepository{
 		if (showAcc == null) {
 			throw new AccountNotFoundException();
 		}
-		return this.json.getJSONForObject(showAcc.getLists());
+		return this.json.getJSONForObject(showAcc.getLists().stream().map(this.mapper::mapToDto).collect(Collectors.toList()));
 	}
 
 //	@Override

@@ -35,14 +35,14 @@ public class AccountDBRepository implements AccountRepository {
 	}
 
 	@Override
-//	@Transactional(value = TxType.REQUIRED)
+	@Transactional(value = TxType.REQUIRED)
 	public Account showAccount(int accountId) throws AccountNotFoundException {
 		return this.manager.find(Account.class, accountId);
 
 	}
 
 	@Override
-	@Transactional(value = TxType.REQUIRED)
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public String createAccount(Account account) {
 		this.manager.persist(account);
 		return SUCCESS;

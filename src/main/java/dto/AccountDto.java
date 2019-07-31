@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class AccountDto {
-	private Integer id;
+	private Integer accountId;
 	private String userName;
 	private String userPass;
 	
@@ -14,20 +14,20 @@ public class AccountDto {
 
 	}
 
-	public AccountDto(Integer id, String userName, String userPass, Set<ToDoListDto> lists) {
+	public AccountDto(Integer accountId, String userName, String userPass, Set<ToDoListDto> lists) {
 		super();
-		this.id = id;
+		this.accountId = accountId;
 		this.userName = userName;
 		this.userPass = userPass;
 		this.lists = lists;
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getAccountId() {
+		return accountId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
 	}
 
 	public String getUserName() {
