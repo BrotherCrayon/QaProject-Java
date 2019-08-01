@@ -7,6 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+import persistence.exceptions.AccountNotFoundException;
 import service.ListService;
 
 @Path("/todolist")
@@ -24,7 +25,11 @@ public class ListController {
 		@GET
 		@Path("/getAccountList/{accountId}")
 		public String getAccountList(@PathParam("accountId") int accountId) {
-			return this.service.getAccountList(accountId);
+			try{
+				return this.service.getAccountList(accountId);
+			} catch (AccountNotFoundException anfe) {
+				return "{ \"message\": \"Account not found\"}";
+			}
 		}
 		
 //		@POST
