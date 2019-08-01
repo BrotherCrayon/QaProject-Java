@@ -1,35 +1,25 @@
-package persistence.domain;
+package dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+public class ToDoListDto {
 
-@Entity
-public class ToDoList {
-	@ManyToOne
-	private Account account;
-	
+	private AccountDto account;
+
 	private String listContent;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer listId;
 	private String listTitle;
-	
-	
-	public ToDoList() {
-		
+
+	public ToDoListDto() {
+
 	}
 
-	public ToDoList(Integer listId, String listTitle, String listContent) {
+	public ToDoListDto(Integer listId, String listTitle, String listContent) {
 		super();
 		this.listId = listId;
 		this.listTitle = listTitle;
 		this.listContent = listContent;
 	}
 
-	public Account getAccount() {
+	public AccountDto getAccount() {
 		return account;
 	}
 
@@ -45,21 +35,20 @@ public class ToDoList {
 		return listTitle;
 	}
 
-	public void setAccount(Account account) {
+	public void setAccount(AccountDto account) {
 		this.account = account;
 	}
 
 	public void setListContent(String listContent) {
 		this.listContent = listContent;
 	}
-	
-	
+
 	public void setListId(Integer listId) {
 		this.listId = listId;
 	}
-	
+
 	public void setListTitle(String listTitle) {
 		this.listTitle = listTitle;
 	}
-	
+
 }

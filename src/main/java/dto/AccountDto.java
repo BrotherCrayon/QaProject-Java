@@ -1,33 +1,20 @@
-package persistence.domain;
+package dto;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-@Entity
-public class Account {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AccountDto {
 	private Integer accountId;
-	
-	@Column(unique = true)
 	private String userName;
 	private String userPass;
 	
-	@OneToMany(mappedBy = "account")
-	private Set<ToDoList> lists = new HashSet<>();
+	private Set<ToDoListDto> lists = new HashSet<>();
 
-	public Account() {
+	public AccountDto() {
 
 	}
 
-	public Account(Integer accountId, String userName, String userPass, Set<ToDoList> lists) {
+	public AccountDto(Integer accountId, String userName, String userPass, Set<ToDoListDto> lists) {
 		super();
 		this.accountId = accountId;
 		this.userName = userName;
@@ -59,11 +46,11 @@ public class Account {
 		this.userPass = userPass;
 	}
 
-	public Set<ToDoList> getLists() {
-		return lists == null ? new HashSet<ToDoList>() : lists;
+	public Set<ToDoListDto> getLists() {
+		return lists;
 	}
 
-	public void setLists(Set<ToDoList> lists) {
+	public void setLists(Set<ToDoListDto> lists) {
 		this.lists = lists;
 	}
 

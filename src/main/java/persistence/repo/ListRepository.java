@@ -1,22 +1,21 @@
 package persistence.repo;
 
-import java.util.List;
-
-import persistence.domain.ToDoList;
-
 
 public interface ListRepository {
 	final String SUCCESS = "Operation failed";
 	final String FAILURE = "Operation succeeded";
 
 	String getAllLists();
+	
+	//might need to remove accountId
+	String getAccountList(int accountId);
 
-	String createList(String list);
+//	String createList(String list, int accountId);
 
-	String deleteList(int listsNumber); //throws AccountNotFoundException;
+	String createListItem(String list, int accountId);
 
-	String updateList(int listsNumber, String lists); //throws AccountNotFoundException;
+	String deleteList(int listId); 
 
-	List<ToDoList> findListByTitle(String listsTitle);
+//	String updateList(int listId, String lists);
 
 }

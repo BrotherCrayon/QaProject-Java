@@ -1,6 +1,6 @@
-package persistence.repo;
+	package persistence.repo;
 
-import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -10,8 +10,11 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import persistence.domain.Account;
 import persistence.domain.ToDoList;
+import persistence.exceptions.AccountNotFoundException;
 import util.JSONUtil;
+import util.ListMapper;
 
 @Transactional(value = TxType.SUPPORTS)
 @Default
@@ -22,45 +25,74 @@ public class ListDBRepository implements ListRepository{
 
 	@Inject
 	private JSONUtil json;
+	
+	@Inject
+	private ListMapper mapper;
 
 	@Override
 	public String getAllLists() {
 		TypedQuery<ToDoList> query = this.manager.createQuery("SELECT l from ToDoList l", ToDoList.class);
 		return this.json.getJSONForObject(query.getResultList());
 	}
+	
+	//TO-DO yet
+	@Override
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public String getAccountList(int accountId) {
+		Account showAcc = this.manager.find(Account.class, accountId);
+		if (showAcc == null) {
+			throw new AccountNotFoundException();
+		}
+		return this.json.getJSONForObject(showAcc.getLists().stream().map(this.mapper::mapToDto).collect(Collectors.toList()));
+	}
 
+//	@Override
+//	@Transactional(value = TxType.REQUIRED)
+//	public String createList(String list, int accountId) {
+//		Account getAccount = this.manager.find(Account.class, accountId);
+//		ToDoList listCreate = this.json.getObjectForJSON(list, ToDoList.class);
+//		
+//		listCreate.setAccount(getAccount);
+//		this.manager.persist(listCreate);
+//		return SUCCESS;
+//	}
+	
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public String createList(String lists) {
-		ToDoList listCreate = this.json.getObjectForJSON(lists, ToDoList.class);
+	public String createListItem(String list, int accountId) {
+		Account getAccount = this.manager.find(Account.class, accountId);
+		ToDoList listCreate = this.json.getObjectForJSON(list, ToDoList.class);
+		
+		listCreate.setAccount(getAccount);
 		this.manager.persist(listCreate);
 		return SUCCESS;
 	}
 
 	@Override
 	@Transactional(value = TxType.REQUIRED)
-	public String deleteList(int listsId) {
-		this.manager.remove(this.manager.find(ToDoList.class, listsId));
+	public String deleteList(int listId) {
+		this.manager.remove(this.manager.find(ToDoList.class, listId));
 		return SUCCESS;
 	}
 
-	@Override
-	@Transactional(value = TxType.REQUIRED)
-	public String updateList(int listsId, String lists) {
-		ToDoList newList = this.json.getObjectForJSON(lists, ToDoList.class);
-		ToDoList existingList = this.manager.find(ToDoList.class, listsId);
-		existingList.setListsId(newList.getListsId());
-		existingList.setListsTitle(newList.getListsTitle());
-		existingList.setListsContent(newList.getListsContent());
-		this.manager.persist(existingList);
-		
-		return null;
-	}
+//	@Override
+//	@Transactional(value = TxType.REQUIRED)
+//	public String updateList(int listId, String list) {
+//		ToDoList newList = this.json.getObjectForJSON(list, ToDoList.class);
+//		ToDoList existingList = this.manager.find(ToDoList.class, listId);
+//		existingList.setListId(newList.getListId());
+//		existingList.setListTitle(newList.getListTitle());
+//		existingList.setListContent(newList.getListContent());
+//		this.manager.persist(existingList);
+//		
+//		return SUCCESS;
+//	}
 
-	@Override
-	public List<ToDoList> findListByTitle(String listsTitle) {
-		TypedQuery<ToDoList> query = this.manager.createQuery("SELECT from l WHERE l.listsTitle = :listsTitle", ToDoList.class);
-		query.setParameter("listsTitle", listsTitle);
-		return query.getResultList();
-	}
+	//later functionality.
+//	@Override
+//	public List<ToDoList> findListByTitle(String listTitle) {
+//		TypedQuery<ToDoList> query = this.manager.createQuery("SELECT from l WHERE l.listsTitle = :listsTitle", ToDoList.class);
+//		query.setParameter("listsTitle", listTitle);
+//		return query.getResultList();
+//	}
 }

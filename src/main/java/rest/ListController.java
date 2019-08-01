@@ -21,21 +21,33 @@ public class ListController {
 			return this.service.getAllLists();
 		}
 		
+		@GET
+		@Path("/getAccountList/{accountId}")
+		public String getAccountList(@PathParam("accountId") int accountId) {
+			return this.service.getAccountList(accountId);
+		}
+		
+//		@POST
+//		@Path("/createList/{accountId}")
+//		public String createList(String list, @PathParam("accountId") int accountId) {
+//			return this.createList(list, accountId);
+//		}
+		
 		@POST
-		@Path("/createList")
-		public String createList(String lists) {
-			return this.createList(lists);
+		@Path("/createListItem/{accountId}")
+		public String createListItem(String list, @PathParam("accountId") int accountId) {
+			return this.service.createListItem(list, accountId);
 		}
 		
 		@DELETE
-		@Path("/delete/{id}")
+		@Path("/delete/{listId}")
 		public String deleteList(@PathParam("listId") int listId) {
 			return this.service.deleteList(listId);
 		}
 		
-		@POST
-		@Path("/update/{id}")
-		public String updateList(@PathParam("listId")int listId, String lists) {
-			return this.service.updateList(listId, lists);
-		}
+//		@POST
+//		@Path("/update/{listId}")
+//		public String updateList(@PathParam("listId")int listId, String lists) {
+//			return this.service.updateList(listId, lists);
+//		}
 }

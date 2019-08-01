@@ -10,34 +10,27 @@ import persistence.repo.AccountRepository;
 
 //import persistence.exceptions.AccountNotFoundException;
 
-
 public class AccountServiceImpl implements AccountService {
 
 	@Inject
 	private AccountRepository repo;
-	
+
 	@Inject
 	private JSONUtil json;
 
 	@Override
 	public String getAllAccounts() {
-		return this.repo.getAllAccounts();
+		return this.json.getJSONForObject(this.repo.getAllAccounts());
 	}
 
 	@Override
 	public String createAccount(String account) {
-		List<Account> accDB = this.repo.findAccountsByUserName(account);
-		
-		String newAccount = this.json.getObjectForJSON(account, Account.class).getUserName();
-		
-		if(accDB != null) {
-			for(Account a : accDB) {
-				if(a.getUserName().equals(newAccount)) {
-					return "{\"message\": \"That name already exists\"}";
-				}
-			}			
-		}
-		return this.repo.createAccount(account);
+		return this.json.getJSONForObject(this.repo.createAccount(this.json.getObjectForJSON(account, Account.class)));
+	}
+
+	@Override
+	public String showAccount(int accountId) {
+		return this.json.getJSONForObject(this.repo.showAccount(accountId));
 	}
 
 	@Override
@@ -47,7 +40,12 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public String updateAccount(int accountId, String account) {
-		return this.repo.updateAccount(accountId, account);
+		return this.json.getJSONForObject(
+				this.repo.updateAccount(accountId, this.json.getObjectForJSON(account, Account.class)));
+	}
+
+	public String login(String account) {
+		return this.json.getJSONForObject(this.repo.login(this.json.getObjectForJSON(account, Account.class)));
 	}
 
 	@Override

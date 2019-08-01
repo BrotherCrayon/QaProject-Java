@@ -2,22 +2,29 @@ package persistence.repo;
 
 import java.util.List;
 
+import dto.AccountDto;
 import persistence.domain.Account;
 
 import persistence.exceptions.AccountNotFoundException;
 
 public interface AccountRepository {
-	final String SUCCESS = "Operation failed";
-	final String FAILURE = "Operation succeeded";
+	final String SUCCESS = "Operation successed";
+	final String FAILURE = "Operation failed";
 
-	String getAllAccounts();
+	List<AccountDto> getAllAccounts();
 
-	String createAccount(String account);
 
+	Account showAccount(int accountId) throws AccountNotFoundException;
+	
 	String deleteAccount(int accountId) throws AccountNotFoundException;
 
-	String updateAccount(int userName, String account) throws AccountNotFoundException;
 
-	List<Account> findAccountsByUserName(String userName);
+	List<AccountDto> findAccountsByUserName(String userName);
+
+	AccountDto login(Account account) throws AccountNotFoundException;
+
+	String updateAccount(int userName, Account account) throws AccountNotFoundException;
+
+	String createAccount(Account account);
 
 }
