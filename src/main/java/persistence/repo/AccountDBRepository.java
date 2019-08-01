@@ -35,9 +35,9 @@ public class AccountDBRepository implements AccountRepository {
 	}
 
 	@Override
-	@Transactional(value = TxType.REQUIRED)
-	public Account showAccount(int accountId) throws AccountNotFoundException {
-		return this.manager.find(Account.class, accountId);
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public AccountDto showAccount(int accountId) throws AccountNotFoundException {
+		return this.mapper.mapToDto(this.manager.find(Account.class, accountId));
 
 	}
 

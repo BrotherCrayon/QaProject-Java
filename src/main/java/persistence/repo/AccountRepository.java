@@ -13,11 +13,9 @@ public interface AccountRepository {
 
 	List<AccountDto> getAllAccounts();
 
-
-	Account showAccount(int accountId) throws AccountNotFoundException;
+	AccountDto showAccount(int accountId) throws AccountNotFoundException;
 	
 	String deleteAccount(int accountId) throws AccountNotFoundException;
-
 
 	List<AccountDto> findAccountsByUserName(String userName);
 

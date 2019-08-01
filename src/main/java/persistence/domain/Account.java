@@ -3,6 +3,7 @@ package persistence.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ public class Account {
 	private String userName;
 	private String userPass;
 	
-	@OneToMany(mappedBy = "account")
+	@OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
 	private Set<ToDoList> lists = new HashSet<>();
 
 	public Account() {

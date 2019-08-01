@@ -1,5 +1,6 @@
 package persistence.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +9,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class ToDoList {
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	private Account account;
 	
 	private String listContent;
@@ -17,7 +18,7 @@ public class ToDoList {
 	private Integer listId;
 	private String listTitle;
 	
-	
+
 	public ToDoList() {
 		
 	}
